@@ -64,6 +64,11 @@ def get_image_size(filepath: str) -> tuple:
     return h_inches, w_inches
 
 def make_slideshow() -> int:
+    '''Makes the slideshow. Assumes that there are images in the frames directory
+
+    Returns:
+        int: Returns a 1 on success
+    '''
     image_height, image_width = get_image_size("frames/1.jpg")
 
     presentation = pptx.Presentation()
@@ -92,6 +97,6 @@ def clear_frames_dir() -> int:
     return 1
 
 if __name__ == "__main__":
-    split_frames("test.mkv")
+    split_frames("test2.mp4")
     make_slideshow()
     clear_frames_dir()
