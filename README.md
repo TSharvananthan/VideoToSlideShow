@@ -8,7 +8,9 @@ So I asked myself if I can turn this to a reality. I guess I can.
 ## How It Works
 In short...
 (1) The video is split into individual frames.
+
 (2) Each frame is put on a slideshow.
+
 (3) The final slideshow is saved.
 
 ## Installation
@@ -17,8 +19,9 @@ In short...
 git clone https://github.com/TSharvananthan/VideoToSlideShow
 cd VideoToSlideShow
 ```
-(2) Install the required libraries
-`pip install -r requirements.txt`
+
+(2) Install the required libraries with `pip install -r requirements.txt`
+
 
 (3) Run video_to_slideshow.py
 
