@@ -34,16 +34,20 @@ def pixels_to_inches(pix: int, dpi: float) -> int:
     '''
     return pix / dpi
 
-def split_frames(filepath) -> int:
+def split_frames(filepath: str, verbose=True) -> int:
     '''Splits a given video into indivitual frames and saves it in the frames directory
 
     Arguments:
         filepath (str): The filepath of the video
+        verbose (bool): Should there be verbose when FFMPEG splits the frames
 
     Returns:
         int -> 1 if it was successful. 0 if it failed
     '''
-    os.system(f"ffmpeg -i {filepath} -r 24/1 frames/%d.jpg")
+    if verbose:
+        os.system(f"ffmpeg -i {filepath} -r 24/1 frames/%d.jpg")
+    else:
+        os.system(f"ffmpeg -hide_banner -loglevel panic -i {filepath} -r 24/1 frames/%d.jpg")
     return 1
 
 def get_image_size(filepath: str) -> tuple:
@@ -63,7 +67,7 @@ def get_image_size(filepath: str) -> tuple:
     w_inches = pixels_to_inches(w, dpi)
     return h_inches, w_inches
 
-def make_slideshow() -> int:
+def make_slideshow(output_file_name="output.pptx") -> int:
     '''Makes the slideshow. Assumes that there are images in the frames directory
 
     Returns:
@@ -82,7 +86,7 @@ def make_slideshow() -> int:
         slide = presentation.slides.add_slide(blank_slide)
         slideshow_picture = slide.shapes.add_picture(image_path, width=Inches(image_width), height=Inches(image_height), left=0, top=0)
 
-    presentation.save("output.pptx")
+    presentation.save(output_file_name)
 
     return 1
 
@@ -96,7 +100,23 @@ def clear_frames_dir() -> int:
     for file in os.listdir(): os.remove(file)
     return 1
 
+
+
 if __name__ == "__main__":
-    split_frames("test2.mp4")
-    make_slideshow()
-    clear_frames_dir()
+    args_obj = argparse.ArgumentParser()
+    args_obj.add_argument("--filename", type=str, required=True, help="The filename that you would like to convert to a slideshow.")
+    args_obj.add_argument("--ffmpeg_verbose", required=False, action='store_false', help="Would you like verbose in your FFMPEG program.")
+    args_obj.add_argument("--keep_frames", required=False, action='store_true', help="Would you like to keep the split frames?")
+    args_obj.add_argument("--output", required=False, default='output.pptx', help="The output name of your file.")
+    args = args_obj.parse_args()
+
+    filename = args.filename
+    ffmpeg_verbose = args.ffmpeg_verbose
+    keep_frames = args.keep_frames
+    output = args.output
+
+    split_frames(filename, verbose=ffmpeg_verbose)
+    make_slideshow(output_file_name=output)
+
+    if not keep_frames:
+        clear_frames_dir()
