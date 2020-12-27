@@ -101,8 +101,7 @@ def clear_frames_dir() -> int:
     return 1
 
 
-
-if __name__ == "__main__":
+def main():
     args_obj = argparse.ArgumentParser()
     args_obj.add_argument("--filename", type=str, required=True, help="The filename that you would like to convert to a slideshow.")
     args_obj.add_argument("--ffmpeg_verbose", required=False, action='store_false', help="Would you like verbose in your FFMPEG program.")
@@ -120,3 +119,8 @@ if __name__ == "__main__":
 
     if not keep_frames:
         clear_frames_dir()
+
+
+
+if __name__ == "__main__":
+    main()
