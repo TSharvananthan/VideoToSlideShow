@@ -102,6 +102,7 @@ def clear_frames_dir() -> int:
 
 
 def main():
+    '''The main function. Puts everything together'''
     args_obj = argparse.ArgumentParser()
     args_obj.add_argument("--filename", type=str, required=True, help="The filename that you would like to convert to a slideshow.")
     args_obj.add_argument("--ffmpeg_verbose", required=False, action='store_false', help="Would you like verbose in your FFMPEG program.")
